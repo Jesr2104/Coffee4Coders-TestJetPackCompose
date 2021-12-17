@@ -43,14 +43,26 @@ enum class CountryISO(val iso: String){
     }
 }
 
+typealias SelectionAction = () -> Unit
+
 @Composable
-fun ProductCard(name: String, summary: String, price: Double, currency: String, countryISO: CountryISO){
+fun ProductCard(name: String,
+                summary: String,
+                price: Double,
+                currency: String,
+                countryISO: CountryISO,
+                selected: SelectionAction
+                // the last param is a lambda expression and we used typealias to rename the type;
+){
 
     Card( modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp)
         .size(480.dp)
-        .clickable {  }
+        .clickable {
+            // when you click on the card this the code we going to run!!
+            selected()
+        }
     ) {
         Image(painterResource(countryISO.getBackgroundImage()), null)
         Surface( modifier = Modifier
@@ -102,9 +114,10 @@ fun ProductCardPreview(){
     val price = 35.95
     val currency = "USD"
 
-
     Coffee4CodersTheme {
-        ProductCard(name, summary, price, currency, CountryISO.COL)
+        ProductCard(name, summary, price, currency, CountryISO.COL){
+
+        }
     }
 }
 
