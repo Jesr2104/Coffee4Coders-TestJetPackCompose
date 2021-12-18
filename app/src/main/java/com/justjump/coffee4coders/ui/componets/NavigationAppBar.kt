@@ -20,7 +20,8 @@ fun NavigationAppBar(
             title = { Text(titleText)},
             navigationIcon = {
                 IconButton(onClick = {
-
+                    // here is missing the function of the button to go back
+                    navigationAction()
                 }){
                     Icon(navigationIcon, "")
                 }
