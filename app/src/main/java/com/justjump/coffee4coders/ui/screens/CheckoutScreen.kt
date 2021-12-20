@@ -11,7 +11,7 @@ fun checkoutScreen(){
     var name by remember { mutableStateOf("")}
 
     TextFieldComponent(value = name, placeholder = "Name"){
-
+        name = it
     }
 
 }
