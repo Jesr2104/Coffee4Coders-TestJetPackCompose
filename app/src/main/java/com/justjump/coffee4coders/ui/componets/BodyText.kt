@@ -17,7 +17,7 @@ fun BodyText(title: String){
 
 @Preview(showBackground = true)
 @Composable
-fun BodyTextPreview(){
+private fun BodyTextPreview(){
     Coffee4CodersTheme {
         BodyText("title")
     }

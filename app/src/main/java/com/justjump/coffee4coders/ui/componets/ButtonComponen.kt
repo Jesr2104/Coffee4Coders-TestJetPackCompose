@@ -24,7 +24,7 @@ fun ButtonComponent(label: String, action: ButtonAction){
     val upperCaseLabel = label.uppercase()
 
     Button(
-        onClick = {action},
+        onClick = {action()},
         modifier = Modifier.fillMaxWidth()
             .clickable{},
             // this one is one test to know if is possible setup the
@@ -47,7 +47,7 @@ fun ButtonComponent(label: String, action: ButtonAction){
 
 @Preview(showBackground = true)
 @Composable
-fun ButtonComponentPreview(){
+private fun ButtonComponentPreview(){
 
     Coffee4CodersTheme {
         Box(modifier = Modifier.padding(20.dp)){

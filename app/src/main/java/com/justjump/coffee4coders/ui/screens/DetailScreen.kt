@@ -17,13 +17,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.justjump.coffee4coders.ui.componets.*
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 
 @Composable
-fun DetailScreen(navController: NavHostController, countryISO: CountryISO) {
+fun DetailScreen(navController: NavController, countryISO: CountryISO) {
 
     Scaffold (
         topBar = {
@@ -73,7 +73,7 @@ fun DetailScreen(navController: NavHostController, countryISO: CountryISO) {
                             textAlign = TextAlign.End
                         )
                         ButtonComponent("purchase"){
-                            navController.navigate("checkout"){
+                            navController.navigate(route = "checkout/${countryISO.iso}"){
                                 launchSingleTop = true
                             }
                         }
@@ -87,8 +87,9 @@ fun DetailScreen(navController: NavHostController, countryISO: CountryISO) {
 
 @Preview(showBackground = true)
 @Composable
-fun DetailScreenPreview(){
+private fun DetailScreenPreview(){
     val navController = rememberNavController()
+
     Coffee4CodersTheme {
         DetailScreen(navController, CountryISO.BRA)
     }

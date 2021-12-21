@@ -62,7 +62,7 @@ fun TextFieldComponent(
 
 @Preview( showBackground = true)
 @Composable
-fun TextFieldComponentPreview(){
+private fun TextFieldComponentPreview(){
 
     Coffee4CodersTheme {
         TextFieldComponent("",""){ }

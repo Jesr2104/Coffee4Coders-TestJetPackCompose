@@ -40,6 +40,6 @@ fun NavigationAppBar(
 
 @Preview(showBackground = true)
 @Composable
-fun NavigationBarItemView(){
+private fun NavigationBarItemView(){
     NavigationAppBar("Coffee4Coders")
 }

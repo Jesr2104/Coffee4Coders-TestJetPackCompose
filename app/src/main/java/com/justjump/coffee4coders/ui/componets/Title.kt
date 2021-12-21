@@ -17,7 +17,7 @@ fun TitleText(title: String){
 
 @Preview(showBackground = true)
 @Composable
-fun FeedScreenPreview(){
+private fun FeedScreenPreview(){
     Coffee4CodersTheme {
         TitleText("title")
     }

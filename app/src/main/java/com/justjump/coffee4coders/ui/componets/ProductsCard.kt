@@ -106,7 +106,7 @@ fun ProductCard(name: String,
 
 @Preview(showBackground = true)
 @Composable
-fun ProductCardPreview(){
+private fun ProductCardPreview(){
 
     val name = "Colombian Coffee!!"
     val summary = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
