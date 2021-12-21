@@ -3,7 +3,9 @@ package com.justjump.coffee4coders.ui.componets
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.justjump.coffee4coders.R
 
 typealias navigationAction = () -> Unit
 
@@ -13,7 +15,7 @@ fun NavigationAppBar(
     navigationIcon: ImageVector? = null,
     navigationAction: navigationAction? = null){
 
-    val titleText = title ?: ""
+    val titleText = title ?: stringResource(R.string.app_name)
 
     if (navigationIcon != null && navigationAction != null){
         TopAppBar (

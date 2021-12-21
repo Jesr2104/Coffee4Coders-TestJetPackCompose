@@ -14,46 +14,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.justjump.coffee4coders.R
+import com.justjump.coffee4coders.models.data.local.Product
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 import com.justjump.coffee4coders.ui.theme.main_color1_coffee4coders
-
-enum class CountryISO(val iso: String){
-    COL("COL"),
-    BRA("BRA"),
-    CRI("CRI"),
-    NIC("NIC");
-
-    fun getBackgroundImage(): Int {
-        return when(this){
-            COL -> R.drawable._co
-            BRA -> R.drawable._br
-            CRI -> R.drawable._ri
-            NIC -> R.drawable._ni
-        }
-    }
-
-    fun getBackgroundCountryFlag(): Int {
-        return when(this){
-            COL -> R.drawable.flagco
-            BRA -> R.drawable.flagbr
-            CRI -> R.drawable.flagri
-            NIC -> R.drawable.flagni
-        }
-    }
-}
+import com.justjump.coffee4coders.utilities.CountryISO
+import com.justjump.coffee4coders.utilities.MockDataProvider
 
 typealias SelectionAction = () -> Unit
 
 @Composable
-fun ProductCard(name: String,
-                summary: String,
-                price: Double,
-                currency: String,
-                countryISO: CountryISO,
+fun ProductCard(product: Product,
                 selected: SelectionAction
                 // the last param is a lambda expression and we used typealias to rename the type;
 ){
+    val country = CountryISO.valueOf(product.countryISO)?: CountryISO.COL
 
     Card( modifier = Modifier
         .fillMaxWidth()
@@ -64,7 +38,7 @@ fun ProductCard(name: String,
             selected()
         }
     ) {
-        Image(painterResource(countryISO.getBackgroundImage()), null)
+        Image(painterResource(country.getBackgroundImage()), null)
         Surface( modifier = Modifier
             .fillMaxWidth(),
             color = main_color1_coffee4coders.copy(0.2f)
@@ -73,9 +47,9 @@ fun ProductCard(name: String,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(16.dp)
             ) {
-                Text(name, //name title to the coffee
+                Text(product.name, //name title to the coffee
                     style = MaterialTheme.typography.h4)
-                Text(summary, // description of the coffee and information
+                Text(product.summary, // description of the coffee and information
                     style = MaterialTheme.typography.body1
                 )
                 Column(
@@ -84,11 +58,11 @@ fun ProductCard(name: String,
                 ) {
                     Row() {
                         Image(
-                            painterResource(countryISO.getBackgroundCountryFlag()), null,
+                            painterResource(country.getBackgroundCountryFlag()), null,
                             modifier = Modifier.size(45.dp, 45.dp)
                         )
                         Text(
-                            text = "$ $price $currency",
+                            text = "$ ${product.price} ${product.currency}",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .align(alignment = Alignment.Bottom),
@@ -107,17 +81,13 @@ fun ProductCard(name: String,
 @Preview(showBackground = true)
 @Composable
 private fun ProductCardPreview(){
-
-    val name = "Colombian Coffee!!"
-    val summary = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
-    val price = 35.95
-    val currency = "USD"
-
-    Coffee4CodersTheme {
-        ProductCard(name, summary, price, currency, CountryISO.COL){
-
+    val product = MockDataProvider.getProductById(0)
+    if (product != null){
+        Coffee4CodersTheme {
+            ProductCard(product){}
         }
+    } else {
+        Text("Error to show Preview")
     }
 }
 

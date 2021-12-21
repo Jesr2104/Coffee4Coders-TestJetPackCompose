@@ -15,11 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.justjump.coffee4coders.models.data.local.Product
 import com.justjump.coffee4coders.ui.componets.*
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
+import com.justjump.coffee4coders.utilities.MockDataProvider
 
 @Composable
-fun CheckoutScreen(navController: NavController, country: CountryISO) {
+fun CheckoutScreen(navController: NavController, product: Product) {
 
     var name by remember { mutableStateOf("")}
     var email by remember { mutableStateOf("")}
@@ -27,72 +29,33 @@ fun CheckoutScreen(navController: NavController, country: CountryISO) {
     var address by remember { mutableStateOf("")}
     var city by remember { mutableStateOf("")}
 
-    val cities = listOf(
-        "Mexico City, Mexico",
-        "The Havana, Cuba",
-        "Cancun, Mexico",
-        "Medellin, Colombia",
-        "Buenos Aires, Argentina",
-        "Sao Paulo, Brasil",
-        "Lima, Peru",
-        "Montevideo, Uruguay",
-        "Panama City, Panama"
-    )
-
-    val productName = "Colombian Coffee!!"
-    val productSummary = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
-            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
-    val productPrice = 35.95
-    val productCurrency = "USD"
-
     Scaffold(
         topBar = {
             NavigationAppBar(
                 title = "Checkout",
                 navigationIcon = Icons.Filled.ArrowBack){
-                    navController.navigate("detail/${country.iso}"){
+                    navController.navigate("detail/${product.id}"){
                         popUpTo("detail")
                     }
                 }
         },
         content = {
-            Column(
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            ) {
-                ProductCard(
-                    productName,
-                    productSummary,
-                    productPrice,
-                    productCurrency,
-                    country
-                ){}
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                ProductCard(product){}
 
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    TextFieldComponent(value = name, placeholder = "full name"){
-                        name = it
-                    }
-
-                    TextFieldComponent(value = email, placeholder = "email"){
-                        email = it
-                    }
-
-                    TextFieldComponent(value = phone, placeholder = "phone number"){
-                        phone = it
-                    }
-
-                    TextFieldComponent(value = address, placeholder = "address"){
-                        address = it
-                    }
+                    TextFieldComponent(value = name, placeholder = "full name"){ name = it }
+                    TextFieldComponent(value = email, placeholder = "email"){ email = it }
+                    TextFieldComponent(value = phone, placeholder = "phone number"){ phone = it }
+                    TextFieldComponent(value = address, placeholder = "address"){ address = it }
 
                     DropdownTextField(
-                        suggestions = cities,
+                        suggestions = MockDataProvider.listOfCities(),
                         value = city,
                         placeholder = "ciudad",
-                    ){
-                        city = it
-                    }
+                    ){ city = it }
 
                     Column {
                         Row{
@@ -103,7 +66,6 @@ fun CheckoutScreen(navController: NavController, country: CountryISO) {
                                 textAlign = TextAlign.End,
                                 modifier = Modifier.fillMaxWidth()
                             )
-
                         }
 
                         Row{
@@ -114,7 +76,6 @@ fun CheckoutScreen(navController: NavController, country: CountryISO) {
                                 textAlign = TextAlign.End,
                                 modifier = Modifier.fillMaxWidth()
                             )
-
                         }
                     }
 
@@ -125,13 +86,8 @@ fun CheckoutScreen(navController: NavController, country: CountryISO) {
                             "$ 45.70 USD",
                             style = MaterialTheme.typography.h5,
                             textAlign = TextAlign.Start
-
                         )
-                        ButtonComponent(
-                            label = "Purchase",
-                        ){
-
-                        }
+                        ButtonComponent(label = "Purchase"){}
                     }
                 }
             }
@@ -143,8 +99,12 @@ fun CheckoutScreen(navController: NavController, country: CountryISO) {
 @Composable
 private fun CheckoutScreenPreview(){
     val navController = rememberNavController()
-
-    Coffee4CodersTheme {
-        CheckoutScreen(navController, CountryISO.BRA)
+    val product = MockDataProvider.getProductById(0)
+    if (product != null){
+        Coffee4CodersTheme {
+            CheckoutScreen(navController, product)
+        }
+    } else {
+        Text("Error to show Preview")
     }
 }
