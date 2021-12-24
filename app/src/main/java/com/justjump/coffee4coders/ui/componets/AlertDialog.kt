@@ -1,97 +1,170 @@
 package com.justjump.coffee4coders.ui.componets
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.justjump.coffee4coders.R
+import com.justjump.coffee4coders.models.data.local.OrderInformation
+import java.text.DecimalFormat
 
 @Composable
-fun ShowAlertDialog(showDialog: MutableState<Boolean>): Boolean {
-    var result = false
-
-    val name = "Jorge Soto Ramos"
-    val email = "jksotoramos@hotmail.com"
-    val phoneNumber = "07345610354"
-    val address = "Robert Robertson, 1234 NW Bobcat Lane, St. Robert, MO 65584-5678"
-    val city = "Medellín, Colombia"
-
+fun ShowAlertDialog(
+    orderInformation: OrderInformation,
+    showDialog: MutableState<Boolean>
+){
 
     AlertDialog(
 
         modifier = Modifier.padding(5.dp),
         title = {
             Text(
-                text = "Confirm Purchase",
+                text = stringResource(R.string.alert_dialog_title),
                 style = MaterialTheme.typography.h5,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                fontWeight = FontWeight.ExtraBold
             )
         },
         text = {
             Column {
-                Text("The information is correct?", style = TextStyle(color = Color.Black))
+                Text(stringResource(R.string.alert_dialog_text),
+                    style = TextStyle(color = Color.Black),
+                    textAlign = TextAlign.Justify,
+                    fontSize = 12.sp
+                )
                 Spacer(modifier = Modifier.height(10.dp))
 
+                Text(stringResource(R.string.alert_dialog_information_user), fontWeight = FontWeight.SemiBold)
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Canvas(modifier = Modifier.fillMaxWidth()) {
+                    val canvasWidth = size.width
+                    drawLine(
+                        start = Offset(x = canvasWidth, y = 0f),
+                        end = Offset(0f,0f),
+                        color = Color.Gray,
+                        strokeWidth = 2F,
+                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+                    )
+                }
+                Spacer(modifier = Modifier.height(5.dp))
+
                 Text(
                     buildAnnotatedString {
                         withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
-                            append("Full Name: ")
+                            append(stringResource(R.string.alert_dialog_full_name))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(name)
+                            append(orderInformation.name)
                         }
                 })
 
                 Text(
                     buildAnnotatedString {
                         withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
-                            append("Email: ")
+                            append(stringResource(R.string.alert_dialog_email))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(email)
+                            append(orderInformation.email)
                         }
                 })
 
                 Text(
                     buildAnnotatedString {
                         withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
-                            append("Phone Nº: ")
+                            append(stringResource(R.string.alert_dialog_phone_number))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(phoneNumber)
+                            append(orderInformation.phoneNumber)
                         }
                 })
 
                 Text(
                     buildAnnotatedString {
                         withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
-                            append("City/Country: ")
+                            append(stringResource(R.string.alert_dialog_country))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(city)
+                            append(orderInformation.city)
                         }
                 })
 
                 Text(
                     buildAnnotatedString {
                         withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
-                            append("Address: ")
+                            append(stringResource(R.string.alert_dialog_address))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(address)
+                            append(orderInformation.address)
                         }
                 })
-            }
-            Row {
-                // aqui va el total a pagar
 
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Column {
+                    Row{
+                        Text(stringResource(R.string.alert_dialog_subtotal), style = MaterialTheme.typography.caption, fontWeight = FontWeight.SemiBold)
+                        Text(
+                            "$ ${orderInformation.subtotal} ${orderInformation.currency}",
+                            style = MaterialTheme.typography.body2,
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
+                    Row{
+                        Text(stringResource(R.string.alert_dialog_shipping), style = MaterialTheme.typography.caption, fontWeight = FontWeight.SemiBold)
+                        Text(
+                            "$ ${orderInformation.parcel} ${orderInformation.currency}",
+                            style = MaterialTheme.typography.body2,
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.End,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Canvas(modifier = Modifier.fillMaxWidth()) {
+                        val canvasWidth = size.width
+                        drawLine(
+                            start = Offset(x = canvasWidth, y = 0f),
+                            end = Offset(0f,0f),
+                            color = Color.Gray,
+                            strokeWidth = 2F,
+                            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Column() {
+                        Row {
+                            Text(stringResource(R.string.alert_dialog_total), style = MaterialTheme.typography.body2, fontWeight = FontWeight.SemiBold)
+                            Text(
+                                "$ ${getTotal(orderInformation.subtotal,orderInformation.parcel)} ${orderInformation.currency}",
+                                style = MaterialTheme.typography.body2,
+                                textAlign = TextAlign.End,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                }
             }
         },
         onDismissRequest = {
@@ -115,8 +188,7 @@ fun ShowAlertDialog(showDialog: MutableState<Boolean>): Boolean {
                     shape = MaterialTheme.shapes.medium,
 
                     ) {
-                    Text("Cancel")
-                    result = false
+                    Text(stringResource(R.string.alert_dialog_button_cancel))
                 }
 
                 Spacer(modifier = Modifier.width(15.dp))
@@ -134,11 +206,14 @@ fun ShowAlertDialog(showDialog: MutableState<Boolean>): Boolean {
                     ),
                     shape = MaterialTheme.shapes.medium,
                 ) {
-                    Text("Confirm")
-                    result = true
+                    Text(stringResource(R.string.alert_dialog_button_confirm))
                 }
             }
         }
     )
-    return result
+}
+
+fun getTotal(subtotal: String, parcel: String): String {
+    val precision = DecimalFormat("0.00")
+    return precision.format(subtotal.toDouble() + parcel.toDouble())
 }

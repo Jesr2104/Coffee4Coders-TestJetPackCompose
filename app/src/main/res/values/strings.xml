@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Coffee4Coders</string>
+    <string name="alert_dialog_title">Order Confirmation</string>
+    <string name="alert_dialog_text">Check that the purchase details are correct and confirm to make the purchase.</string>
+    <string name="alert_dialog_information_user">Your information</string>
+    <string name="alert_dialog_full_name">\"Full Name: \"</string>
+    <string name="alert_dialog_email">\"Email: \"</string>
+    <string name="alert_dialog_phone_number">\"Phone Nº: \"</string>
+    <string name="alert_dialog_country">\"City/Country: \"</string>
+    <string name="alert_dialog_address">\"Address: \"</string>
+    <string name="alert_dialog_subtotal">Subtotal</string>
+    <string name="alert_dialog_shipping">Shipping Charges</string>
+    <string name="alert_dialog_total">Total</string>
+    <string name="alert_dialog_button_cancel">Cancel</string>
+    <string name="alert_dialog_button_confirm">Confirm</string>
 </resources>
