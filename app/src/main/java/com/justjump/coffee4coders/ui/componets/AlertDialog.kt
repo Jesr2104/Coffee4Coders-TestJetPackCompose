@@ -16,12 +16,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.justjump.coffee4coders.R
-import com.justjump.coffee4coders.models.data.local.OrderInformation
+import com.justjump.coffee4coders.models.data.local.UserInformation
 import java.text.DecimalFormat
 
 @Composable
 fun ShowAlertDialog(
-    orderInformation: OrderInformation,
+    UserInformation: UserInformation,
     showDialog: MutableState<Boolean>
 ){
 
@@ -68,7 +68,7 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_full_name))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(orderInformation.name)
+                            append(UserInformation.name)
                         }
                 })
 
@@ -78,7 +78,7 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_email))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(orderInformation.email)
+                            append(UserInformation.email)
                         }
                 })
 
@@ -88,7 +88,7 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_phone_number))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(orderInformation.phoneNumber)
+                            append(UserInformation.phoneNumber)
                         }
                 })
 
@@ -98,7 +98,7 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_country))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(orderInformation.city)
+                            append(UserInformation.city)
                         }
                 })
 
@@ -108,7 +108,7 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_address))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(orderInformation.address)
+                            append(UserInformation.address)
                         }
                 })
 
@@ -119,7 +119,7 @@ fun ShowAlertDialog(
                     Row{
                         Text(stringResource(R.string.alert_dialog_subtotal), style = MaterialTheme.typography.caption, fontWeight = FontWeight.SemiBold)
                         Text(
-                            "$ ${orderInformation.subtotal} ${orderInformation.currency}",
+                            "$ ${UserInformation.subtotal} ${UserInformation.currency}",
                             style = MaterialTheme.typography.body2,
                             fontSize = 12.sp,
                             textAlign = TextAlign.End,
@@ -130,7 +130,7 @@ fun ShowAlertDialog(
                     Row{
                         Text(stringResource(R.string.alert_dialog_shipping), style = MaterialTheme.typography.caption, fontWeight = FontWeight.SemiBold)
                         Text(
-                            "$ ${orderInformation.parcel} ${orderInformation.currency}",
+                            "$ ${UserInformation.parcel} ${UserInformation.currency}",
                             style = MaterialTheme.typography.body2,
                             fontSize = 12.sp,
                             textAlign = TextAlign.End,
@@ -156,7 +156,7 @@ fun ShowAlertDialog(
                         Row {
                             Text(stringResource(R.string.alert_dialog_total), style = MaterialTheme.typography.body2, fontWeight = FontWeight.SemiBold)
                             Text(
-                                "$ ${getTotal(orderInformation.subtotal,orderInformation.parcel)} ${orderInformation.currency}",
+                                "$ ${getTotal(UserInformation.subtotal,UserInformation.parcel)} ${UserInformation.currency}",
                                 style = MaterialTheme.typography.body2,
                                 textAlign = TextAlign.End,
                                 fontWeight = FontWeight.SemiBold,

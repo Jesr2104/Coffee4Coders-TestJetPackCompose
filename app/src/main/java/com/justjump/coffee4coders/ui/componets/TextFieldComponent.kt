@@ -1,6 +1,7 @@
 package com.justjump.coffee4coders.ui.componets
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 
 typealias TrailingIcon = @Composable (()-> Unit)?
@@ -38,15 +40,16 @@ fun TextFieldComponent(
         // when the Text field get text from the keyboard it gonna be black
         textStyle = TextStyle(Color.Black),
         label = {
-            Text(placeholder,
-            style = MaterialTheme.typography.caption
+            Text(
+                placeholder,
+                style = MaterialTheme.typography.caption,
             )
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(57.dp)
             .onGloballyPositioned {
-                if (onGloballyPositioned != null){
-                    onGloballyPositioned(it)
-                }
+                if (onGloballyPositioned != null){ onGloballyPositioned(it) }
             },
         enabled = enable,
         keyboardActions = KeyboardActions (

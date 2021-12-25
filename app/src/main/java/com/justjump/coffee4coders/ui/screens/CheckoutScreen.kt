@@ -1,14 +1,16 @@
 package com.justjump.coffee4coders.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -16,8 +18,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.justjump.coffee4coders.models.data.local.OrderInformation
 import com.justjump.coffee4coders.models.data.local.Product
+import com.justjump.coffee4coders.models.data.local.UserInformation
 import com.justjump.coffee4coders.ui.componets.*
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
+import com.justjump.coffee4coders.utilities.CountryISO
 import com.justjump.coffee4coders.utilities.MockDataProvider
 
 @Composable
@@ -27,12 +31,12 @@ fun CheckoutScreen(navController: NavController, product: Product) {
     var email by remember { mutableStateOf("")}
     var phone by remember { mutableStateOf("")}
     var address by remember { mutableStateOf("")}
+    var postCode by remember { mutableStateOf("")}
     var city by remember { mutableStateOf("")}
+    val country = CountryISO.valueOf(product.countryISO)?: CountryISO.COL
 
     // this state val is to controller when show the dialog
     val showDialog = remember {mutableStateOf(false)}
-    //val getConfirmation = remember { mutableStateOf(false) }
-
 
     Scaffold(
         topBar = {
@@ -45,8 +49,18 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                 }
         },
         content = {
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                ProductCard(product){}
+            Column(modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+            ) {
+
+                Text(
+                    "Getting you Order",
+                    style = MaterialTheme.typography.h5,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    fontWeight = FontWeight.ExtraBold
+                )
 
                 Column(
                     modifier = Modifier.padding(16.dp)
@@ -54,13 +68,44 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                     TextFieldComponent(value = name, placeholder = "full name"){ name = it }
                     TextFieldComponent(value = email, placeholder = "email"){ email = it }
                     TextFieldComponent(value = phone, placeholder = "phone number"){ phone = it }
-                    TextFieldComponent(value = address, placeholder = "address"){ address = it }
+
+                    Row(horizontalArrangement = Arrangement.SpaceAround){
+                        Column(
+                            modifier = Modifier
+                                .weight(4f)
+                                .fillMaxWidth()
+                        ) {
+                            TextFieldComponent(value = address, placeholder = "address"){ address = it }
+                        }
+
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                        Column(
+                            modifier = Modifier
+                                .weight(2f)
+                                .fillMaxWidth()
+                        ) {
+                            TextFieldComponent(value = postCode, placeholder = "post code"){ postCode = it }
+                        }
+                    }
 
                     DropdownTextField(
                         suggestions = MockDataProvider.listOfCities(),
                         value = city,
                         placeholder = "ciudad",
                     ){ city = it }
+
+
+                    CheckProductDetail(
+                        orderInformation = OrderInformation(
+                            name = product.name,
+                            textDescriptionProduct = "The best Coffee pack!!",
+                            iconFlag = country.getBackgroundCountryFlag(),
+                            qty = 1,
+                            price = product.price,
+                            currency = product.currency,
+                        )
+                    )
 
                     Column {
                         Row{
@@ -88,7 +133,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ){
                         Text(
-                            "$ 45.70 USD",
+                            text = "$ 45.70 USD",
                             style = MaterialTheme.typography.h5,
                             textAlign = TextAlign.Start
                         )
@@ -99,7 +144,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                         // this is the call to the Alert function this one
                         // is call this the state of the show dialog is true.
                         if(showDialog.value) {
-                            val orderInformation = OrderInformation(
+                            val orderInformation = UserInformation(
                                 "Jorge Soto Ramos",
                                 "jksotoramos@hotmail.com",
                                 "07345610354",
