@@ -13,11 +13,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.justjump.coffee4coders.R
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 
 typealias TrailingIcon = @Composable (()-> Unit)?
@@ -29,6 +36,7 @@ fun TextFieldComponent(
     value: String,
     placeholder: String,
     enable: Boolean = true,
+    mandatory: Boolean = true,
     trailingIcon: TrailingIcon = null,
     onGloballyPositioned: OnGloballyPositioned = null,
     onValueChange: OnValueChange
@@ -40,10 +48,23 @@ fun TextFieldComponent(
         // when the Text field get text from the keyboard it gonna be black
         textStyle = TextStyle(Color.Black),
         label = {
-            Text(
-                placeholder,
-                style = MaterialTheme.typography.caption,
-            )
+
+            if (mandatory){
+                Text(
+                    buildAnnotatedString {
+                        withStyle(SpanStyle(color = Color.Gray, fontSize = 12.sp)){
+                            append(placeholder)
+                        }
+                        withStyle(SpanStyle(color = Color.Red, fontWeight = FontWeight.SemiBold, fontSize = 9.sp)){
+                            append(" *")
+                        }
+                    })
+            } else {
+                Text(
+                    placeholder,
+                    style = MaterialTheme.typography.caption,
+                )
+            }
         },
         modifier = Modifier
             .fillMaxWidth()

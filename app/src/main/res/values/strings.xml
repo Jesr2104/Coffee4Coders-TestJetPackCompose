@@ -1,16 +1,38 @@
 <resources>
     <string name="app_name">Coffee4Coders</string>
+
+    <!--  ************************************************  -->
+    <!--   Text for Alert Dialog                            -->
+    <!--  ************************************************  -->
     <string name="alert_dialog_title">Order Confirmation</string>
     <string name="alert_dialog_text">Check that the purchase details are correct and confirm to make the purchase.</string>
     <string name="alert_dialog_information_user">Your information</string>
-    <string name="alert_dialog_full_name">\"Full Name: \"</string>
-    <string name="alert_dialog_email">\"Email: \"</string>
-    <string name="alert_dialog_phone_number">\"Phone Nº: \"</string>
-    <string name="alert_dialog_country">\"City/Country: \"</string>
-    <string name="alert_dialog_address">\"Address: \"</string>
+    <string name="alert_dialog_full_name">Full Name: </string>
+    <string name="alert_dialog_email">Email: </string>
+    <string name="alert_dialog_phone_number">\Phone Nº: </string>
+    <string name="alert_dialog_country">City / Country: </string>
+    <string name="alert_dialog_address">Address: </string>
     <string name="alert_dialog_subtotal">Subtotal</string>
     <string name="alert_dialog_shipping">Shipping Charges</string>
     <string name="alert_dialog_total">Total</string>
     <string name="alert_dialog_button_cancel">Cancel</string>
     <string name="alert_dialog_button_confirm">Confirm</string>
+
+    <!--  ************************************************  -->
+    <!--   Text for check out screen                        -->
+    <!--  ************************************************  -->
+    <string name="checkout_screen_title">Checkout</string>
+    <string name="checkout_screen_title_information">Getting you Order</string>
+    <string name="checkout_screen_full_name">full name</string>
+    <string name="checkout_screen_email">email</string>
+    <string name="checkout_screen_phone_number">phone number</string>
+    <string name="checkout_screen_address">address</string>
+    <string name="checkout_screen_post_code">post code</string>
+    <string name="checkout_screen_title_pack_coffee">The best Coffee pack!!</string>
+    <string name="checkout_screen_subtotal">Subtotal</string>
+    <string name="checkout_screen_shipping">Shipping</string>
+    <string name="checkout_screen_ciudad">city / country</string>
+    <string name="checkout_screen_button_text">Purchase</string>
+
+
 </resources>

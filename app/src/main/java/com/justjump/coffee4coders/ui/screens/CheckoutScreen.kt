@@ -10,12 +10,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.justjump.coffee4coders.R
 import com.justjump.coffee4coders.models.data.local.OrderInformation
 import com.justjump.coffee4coders.models.data.local.Product
 import com.justjump.coffee4coders.models.data.local.UserInformation
@@ -33,7 +35,8 @@ fun CheckoutScreen(navController: NavController, product: Product) {
     var address by remember { mutableStateOf("")}
     var postCode by remember { mutableStateOf("")}
     var city by remember { mutableStateOf("")}
-    val country = CountryISO.valueOf(product.countryISO)?: CountryISO.COL
+    val countryForIcon = CountryISO.valueOf(product.countryISO)
+    val SHIPPING_PRICE = 4.35
 
     // this state val is to controller when show the dialog
     val showDialog = remember {mutableStateOf(false)}
@@ -41,7 +44,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
     Scaffold(
         topBar = {
             NavigationAppBar(
-                title = "Checkout",
+                title = stringResource(R.string.checkout_screen_title),
                 navigationIcon = Icons.Filled.ArrowBack){
                     navController.navigate("detail/${product.id}"){
                         popUpTo("detail")
@@ -55,7 +58,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
             ) {
 
                 Text(
-                    "Getting you Order",
+                    stringResource(R.string.checkout_screen_title_information),
                     style = MaterialTheme.typography.h5,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth(),
@@ -65,9 +68,9 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    TextFieldComponent(value = name, placeholder = "full name"){ name = it }
-                    TextFieldComponent(value = email, placeholder = "email"){ email = it }
-                    TextFieldComponent(value = phone, placeholder = "phone number"){ phone = it }
+                    TextFieldComponent(value = name, placeholder = stringResource(R.string.checkout_screen_full_name)){ name = it }
+                    TextFieldComponent(value = email, placeholder = stringResource(R.string.checkout_screen_email)){ email = it }
+                    TextFieldComponent(value = phone, placeholder = stringResource(R.string.checkout_screen_phone_number)){ phone = it }
 
                     Row(horizontalArrangement = Arrangement.SpaceAround){
                         Column(
@@ -75,7 +78,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                                 .weight(4f)
                                 .fillMaxWidth()
                         ) {
-                            TextFieldComponent(value = address, placeholder = "address"){ address = it }
+                            TextFieldComponent(value = address, placeholder = stringResource(R.string.checkout_screen_address)){ address = it }
                         }
 
                         Spacer(modifier = Modifier.width(10.dp))
@@ -85,22 +88,22 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                                 .weight(2f)
                                 .fillMaxWidth()
                         ) {
-                            TextFieldComponent(value = postCode, placeholder = "post code"){ postCode = it }
+                            TextFieldComponent(value = postCode, placeholder = stringResource(R.string.checkout_screen_post_code)){ postCode = it }
                         }
                     }
 
                     DropdownTextField(
                         suggestions = MockDataProvider.listOfCities(),
                         value = city,
-                        placeholder = "ciudad",
+                        placeholder = stringResource(R.string.checkout_screen_ciudad),
                     ){ city = it }
 
 
                     CheckProductDetail(
                         orderInformation = OrderInformation(
                             name = product.name,
-                            textDescriptionProduct = "The best Coffee pack!!",
-                            iconFlag = country.getBackgroundCountryFlag(),
+                            textDescriptionProduct = stringResource(R.string.checkout_screen_title_pack_coffee),
+                            iconFlag = countryForIcon.getBackgroundCountryFlag(),
                             qty = 1,
                             price = product.price,
                             currency = product.currency,
@@ -109,19 +112,21 @@ fun CheckoutScreen(navController: NavController, product: Product) {
 
                     Column {
                         Row{
-                            Text("Subtotal", style = MaterialTheme.typography.caption)
+                            Text(stringResource(R.string.checkout_screen_subtotal), style = MaterialTheme.typography.caption)
                             Text(
-                                "35.95",
+                                text = "$ ${product.price} ${product.currency}",
                                 style = MaterialTheme.typography.body2,
                                 textAlign = TextAlign.End,
                                 modifier = Modifier.fillMaxWidth()
                             )
                         }
 
+                        Spacer(modifier = Modifier.height(5.dp))
+
                         Row{
-                            Text("Parcel", style = MaterialTheme.typography.caption)
+                            Text(stringResource(R.string.checkout_screen_shipping), style = MaterialTheme.typography.caption)
                             Text(
-                                "9.75",
+                                text = "$ $SHIPPING_PRICE ${product.currency}",
                                 style = MaterialTheme.typography.body2,
                                 textAlign = TextAlign.End,
                                 modifier = Modifier.fillMaxWidth()
@@ -129,30 +134,42 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                         }
                     }
 
+                    Spacer(modifier = Modifier.height(20.dp))
+
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ){
                         Text(
-                            text = "$ 45.70 USD",
+                            text = "$ ${getTotal(product.price.toString(),SHIPPING_PRICE.toString())} ${product.currency}",
                             style = MaterialTheme.typography.h5,
-                            textAlign = TextAlign.Start
+                            textAlign = TextAlign.Start,
+                            fontWeight = FontWeight.ExtraBold
                         )
-                        ButtonComponent(label = "Purchase"){
-                            showDialog.value = true
+                        ButtonComponent(label = stringResource(R.string.checkout_screen_button_text)){
+
+                            if(name.isNotEmpty() &&
+                                email.isNotEmpty() &&
+                                phone.isNotEmpty() &&
+                                address.isNotEmpty() &&
+                                postCode.isNotEmpty() &&
+                                city.isNotEmpty()
+                            ){
+                                showDialog.value = true
+                            }
                         }
 
                         // this is the call to the Alert function this one
                         // is call this the state of the show dialog is true.
                         if(showDialog.value) {
                             val orderInformation = UserInformation(
-                                "Jorge Soto Ramos",
-                                "jksotoramos@hotmail.com",
-                                "07345610354",
-                                "Robert Robertson, 1234 NW Bobcat Lane, St. Robert, MO 65584-5678",
-                                "Medellín, Colombia",
-                                "35.95",
-                                "4.35",
-                                "USD"
+                                name,
+                                email,
+                                phone,
+                                address,
+                                city,
+                                product.price.toString(),
+                                SHIPPING_PRICE.toString(),
+                                product.currency
                             )
                             ShowAlertDialog(orderInformation, showDialog)
                         }
