@@ -22,7 +22,8 @@ import java.text.DecimalFormat
 @Composable
 fun ShowAlertDialog(
     UserInformation: UserInformation,
-    showDialog: MutableState<Boolean>
+    showDialog: MutableState<Boolean>,
+    isOrderComplete: MutableState<Boolean>
 ){
 
     AlertDialog(
@@ -68,9 +69,11 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_full_name))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(UserInformation.name)
+                            append(" "+UserInformation.name)
                         }
                 })
+
+                Spacer(modifier = Modifier.height(3.dp))
 
                 Text(
                     buildAnnotatedString {
@@ -78,9 +81,11 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_email))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(UserInformation.email)
+                            append(" "+UserInformation.email)
                         }
                 })
+
+                Spacer(modifier = Modifier.height(3.dp))
 
                 Text(
                     buildAnnotatedString {
@@ -88,19 +93,11 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_phone_number))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(UserInformation.phoneNumber)
+                            append(" "+UserInformation.phoneNumber)
                         }
                 })
 
-                Text(
-                    buildAnnotatedString {
-                        withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
-                            append(stringResource(R.string.alert_dialog_country))
-                        }
-                        withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(UserInformation.city)
-                        }
-                })
+                Spacer(modifier = Modifier.height(3.dp))
 
                 Text(
                     buildAnnotatedString {
@@ -108,12 +105,36 @@ fun ShowAlertDialog(
                             append(stringResource(R.string.alert_dialog_address))
                         }
                         withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
-                            append(UserInformation.address)
+                            append(" "+UserInformation.address)
                         }
                 })
 
+                Spacer(modifier = Modifier.height(3.dp))
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Text(
+                    buildAnnotatedString {
+                        withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
+                            append(stringResource(R.string.alert_dialog_post_code))
+                        }
+                        withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
+                            append(" "+UserInformation.postCode.uppercase())
+                        }
+                    })
+
+                Spacer(modifier = Modifier.height(3.dp))
+
+                Text(
+                    buildAnnotatedString {
+                        withStyle(SpanStyle(MaterialTheme.colors.primary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)){
+                            append(stringResource(R.string.alert_dialog_country))
+                        }
+                        withStyle(SpanStyle(Color.Gray, fontSize = 12.sp)){
+                            append(" "+UserInformation.city)
+                        }
+                    })
+
+
+                Spacer(modifier = Modifier.height(15.dp))
 
                 Column {
                     Row{
@@ -169,6 +190,7 @@ fun ShowAlertDialog(
         },
         onDismissRequest = {
             showDialog.value = false
+            isOrderComplete.value = false
         },
         buttons = {
             Row(
@@ -179,7 +201,10 @@ fun ShowAlertDialog(
 
             ) {
                 Button(
-                    onClick = { showDialog.value = false },
+                    onClick = {
+                        showDialog.value = false
+                        isOrderComplete.value = false
+                    },
                     elevation = ButtonDefaults.elevation(
                         defaultElevation = 6.dp,
                         pressedElevation = 8.dp,
@@ -194,7 +219,10 @@ fun ShowAlertDialog(
                 Spacer(modifier = Modifier.width(15.dp))
 
                 Button(
-                    onClick = { showDialog.value = false },
+                    onClick = {
+                        showDialog.value = false
+                        isOrderComplete.value = true
+                    },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.secondary,
                         contentColor = Color.White

@@ -5,6 +5,7 @@ data class UserInformation(
     var email: String,
     var phoneNumber:String,
     var address: String,
+    var postCode: String,
     var city: String,
     var subtotal: String,
     var parcel: String,

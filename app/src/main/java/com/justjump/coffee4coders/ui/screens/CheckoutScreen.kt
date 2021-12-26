@@ -1,5 +1,7 @@
 package com.justjump.coffee4coders.ui.screens
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,11 +38,15 @@ fun CheckoutScreen(navController: NavController, product: Product) {
     var address by remember { mutableStateOf("")}
     var postCode by remember { mutableStateOf("")}
     var city by remember { mutableStateOf("")}
-    val countryForIcon = CountryISO.valueOf(product.countryISO)
+
     val SHIPPING_PRICE = 4.35
+    val context = LocalContext.current
+    val countryForIcon = CountryISO.valueOf(product.countryISO)
+    val messageTextField = R.string.checkout_screen_message
 
     // this state val is to controller when show the dialog
     val showDialog = remember {mutableStateOf(false)}
+    val isOrderComplete = remember { mutableStateOf(false)}
 
     Scaffold(
         topBar = {
@@ -136,9 +143,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
-                    ){
+                    Row( horizontalArrangement = Arrangement.spacedBy(16.dp) ){
                         Text(
                             text = "$ ${getTotal(product.price.toString(),SHIPPING_PRICE.toString())} ${product.currency}",
                             style = MaterialTheme.typography.h5,
@@ -147,15 +152,11 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                         )
                         ButtonComponent(label = stringResource(R.string.checkout_screen_button_text)){
 
-                            if(name.isNotEmpty() &&
-                                email.isNotEmpty() &&
-                                phone.isNotEmpty() &&
-                                address.isNotEmpty() &&
-                                postCode.isNotEmpty() &&
-                                city.isNotEmpty()
-                            ){
+                            if(name.isNotEmpty() && email.isNotEmpty() && phone.isNotEmpty() &&
+                                address.isNotEmpty() && postCode.isNotEmpty() && city.isNotEmpty()){
                                 showDialog.value = true
                             }
+                            else { Toast.makeText(context, messageTextField, Toast.LENGTH_SHORT).show() }
                         }
 
                         // this is the call to the Alert function this one
@@ -166,12 +167,19 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                                 email,
                                 phone,
                                 address,
+                                postCode,
                                 city,
                                 product.price.toString(),
                                 SHIPPING_PRICE.toString(),
                                 product.currency
                             )
-                            ShowAlertDialog(orderInformation, showDialog)
+                            ShowAlertDialog(orderInformation, showDialog, isOrderComplete)
+                        }
+
+                        if (isOrderComplete.value){
+                            navController.navigate(route = "confirmation"){
+                                launchSingleTop = true
+                            }
                         }
                     }
                 }
@@ -179,6 +187,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
         }
     )
 }
+
 
 @Preview( showBackground = true)
 @Composable

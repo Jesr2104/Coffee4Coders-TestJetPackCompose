@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.justjump.coffee4coders.ui.screens.CheckoutScreen
+import com.justjump.coffee4coders.ui.screens.ConfirmationScreen
 import com.justjump.coffee4coders.ui.screens.DetailScreen
 import com.justjump.coffee4coders.ui.screens.FeedScreen
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
@@ -36,6 +37,10 @@ fun NavigationHost(){
                     val productId = productIdString.toInt()
                     val product = MockDataProvider.getProductById(productId)
                     CheckoutScreen(navController, product!!)
+                }
+
+                composable(route = "confirmation"){
+                    ConfirmationScreen(navController)
                 }
             }
         }

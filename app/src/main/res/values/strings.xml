@@ -9,9 +9,10 @@
     <string name="alert_dialog_information_user">Your information</string>
     <string name="alert_dialog_full_name">Full Name: </string>
     <string name="alert_dialog_email">Email: </string>
-    <string name="alert_dialog_phone_number">\Phone Nº: </string>
+    <string name="alert_dialog_phone_number">Phone Nº: </string>
     <string name="alert_dialog_country">City / Country: </string>
     <string name="alert_dialog_address">Address: </string>
+    <string name="alert_dialog_post_code">Post Code: </string>
     <string name="alert_dialog_subtotal">Subtotal</string>
     <string name="alert_dialog_shipping">Shipping Charges</string>
     <string name="alert_dialog_total">Total</string>
@@ -33,6 +34,7 @@
     <string name="checkout_screen_shipping">Shipping</string>
     <string name="checkout_screen_ciudad">city / country</string>
     <string name="checkout_screen_button_text">Purchase</string>
+    <string name="checkout_screen_message">All fields with * are required</string>
 
 
 </resources>
