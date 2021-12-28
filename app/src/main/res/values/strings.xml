@@ -37,4 +37,11 @@
     <string name="checkout_screen_message">All fields with * are required</string>
 
 
+    <!--  ************************************************  -->
+    <!--   Text for detail screen                        -->
+    <!--  ************************************************  -->
+    <string name="detail_screen_title_top_bar">Details</string>
+    <string name="detail_screen_button_purchase">purchase</string>
+
+
 </resources>

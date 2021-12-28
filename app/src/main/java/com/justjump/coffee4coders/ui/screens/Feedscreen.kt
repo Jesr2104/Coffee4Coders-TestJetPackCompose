@@ -1,6 +1,5 @@
 package com.justjump.coffee4coders.ui.screens
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -55,7 +54,10 @@ fun FeedScreen(navController: NavController){
                         }
                         items(list){ product ->
                             ProductCard(product){
-                                navController.navigate(route = "detail/${product.id}"){
+
+                                val data = "detail/${product.id}"
+
+                                navController.navigate(route = data ){
                                     launchSingleTop = true
                                 }
                             }
@@ -91,10 +93,10 @@ private fun FeedScreenPreview(){
     FeedScreen(navController)
 }
 
-@Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_YES
-)
+//@Preview(
+//    showBackground = true,
+//    uiMode = UI_MODE_NIGHT_YES
+//)
 @Composable
 private fun FeedScreenPreviewDark(){
     val navController = rememberNavController()

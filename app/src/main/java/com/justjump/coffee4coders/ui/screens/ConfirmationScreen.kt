@@ -38,8 +38,7 @@ fun ConfirmationScreen(navController: NavHostController) {
 
     Scaffold(
         topBar = { NavigationAppBar( title = "Summary" ) },
-        content =
-        {
+        content = {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,

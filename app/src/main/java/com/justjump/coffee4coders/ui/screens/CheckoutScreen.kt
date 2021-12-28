@@ -1,6 +1,5 @@
 package com.justjump.coffee4coders.ui.screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -8,8 +7,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +25,7 @@ import com.justjump.coffee4coders.ui.componets.*
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 import com.justjump.coffee4coders.utilities.CountryISO
 import com.justjump.coffee4coders.utilities.MockDataProvider
+import com.justjump.coffee4coders.utilities.SetSimpleAppBarWithBackButton
 
 @Composable
 fun CheckoutScreen(navController: NavController, product: Product) {
@@ -49,15 +47,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
     val isOrderComplete = remember { mutableStateOf(false)}
 
     Scaffold(
-        topBar = {
-            NavigationAppBar(
-                title = stringResource(R.string.checkout_screen_title),
-                navigationIcon = Icons.Filled.ArrowBack){
-                    navController.navigate("detail/${product.id}"){
-                        popUpTo("detail")
-                    }
-                }
-        },
+        topBar = { SetSimpleAppBarWithBackButton(navController, R.string.checkout_screen_title) },
         content = {
             Column(modifier = Modifier
                 .verticalScroll(rememberScrollState())
