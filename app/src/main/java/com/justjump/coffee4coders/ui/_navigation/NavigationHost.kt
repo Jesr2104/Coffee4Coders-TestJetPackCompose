@@ -3,11 +3,9 @@ package com.justjump.coffee4coders.ui._navigation
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.justjump.coffee4coders.ui.screens.CheckoutScreen
 import com.justjump.coffee4coders.ui.screens.ConfirmationScreen
 import com.justjump.coffee4coders.ui.screens.DetailScreen
@@ -26,30 +24,40 @@ fun NavigationHost(){
                 NavItem.Main.route)
             {
 
-                composable(route = NavItem.Main.route){ FeedScreen(navController) }
+                composable( route = NavItem.Main.route ){
+                    FeedScreen{ productOnClick ->
+                        navController.navigate(NavItem.Detail.createNavRoute(productOnClick.id))
+                    }
+                }
 
-                composable(
-                    route = NavItem.Detail.route,
-                    arguments = NavItem.Detail.args
-                ){ backStackEntry ->
-                    var idProduct = backStackEntry.arguments?.getInt("productId")!!
+                composable( route = NavItem.Main.route ) {
+                    ConfirmationScreen {
+                        navController.navigate(NavItem.Main.route)
+                    }
+                }
+
+                composable( route = NavItem.Detail.route, arguments = NavItem.Detail.args ){ backStackEntry ->
+                    val idProduct = backStackEntry.arguments?.getInt(NavArg.ProductId.Key)!!
                     val product = MockDataProvider.getProductById(idProduct)
                     requireNotNull(product)
-                    DetailScreen(navController, product)
-
+                    DetailScreen(product = product){ productOnClick ->
+                        navController.navigate(NavItem.Checkout.createNavRoute(productOnClick.id))
+                    }
                 }
 
-                composable(route = "checkout/{productId}"){ backStackEntry ->
-                    val productIdString = backStackEntry.arguments?.getString("productId")?: "0"
-                    val productId = productIdString.toInt()
-                    val product = MockDataProvider.getProductById(productId)
+                composable(
+                    route = NavItem.Checkout.route,
+                    arguments =  NavItem.Checkout.args
+                ){ backStackEntry ->
+                    val idProduct = backStackEntry.arguments?.getInt(NavArg.ProductId.Key)!!
+                    val product = MockDataProvider.getProductById(idProduct)
                     requireNotNull(product)
-                    CheckoutScreen(navController, product)
+                    CheckoutScreen(product = product){
+                        navController.navigate(NavItem.Confirmation.route)
+                    }
                 }
 
-                composable(route = "confirmation"){
-                    ConfirmationScreen(navController)
-                }
+
             }
         }
     }

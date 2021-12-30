@@ -15,8 +15,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.justjump.coffee4coders.R
 import com.justjump.coffee4coders.models.data.local.OrderInformation
 import com.justjump.coffee4coders.models.data.local.Product
@@ -25,10 +23,9 @@ import com.justjump.coffee4coders.ui.componets.*
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 import com.justjump.coffee4coders.utilities.CountryISO
 import com.justjump.coffee4coders.utilities.MockDataProvider
-import com.justjump.coffee4coders.utilities.SetSimpleAppBarWithBackButton
 
 @Composable
-fun CheckoutScreen(navController: NavController, product: Product) {
+fun CheckoutScreen(product: Product, onClick: () -> Unit) {
 
     var name by remember { mutableStateOf("")}
     var email by remember { mutableStateOf("")}
@@ -47,7 +44,7 @@ fun CheckoutScreen(navController: NavController, product: Product) {
     val isOrderComplete = remember { mutableStateOf(false)}
 
     Scaffold(
-        topBar = { SetSimpleAppBarWithBackButton(navController, R.string.checkout_screen_title) },
+        //topBar = { SetSimpleAppBarWithBackButton(navController, R.string.checkout_screen_title) },
         content = {
             Column(modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -167,9 +164,8 @@ fun CheckoutScreen(navController: NavController, product: Product) {
                         }
 
                         if (isOrderComplete.value){
-                            navController.navigate(route = "confirmation"){
-                                launchSingleTop = true
-                            }
+                            onClick()
+                            isOrderComplete.value = false
                         }
                     }
                 }
@@ -182,11 +178,10 @@ fun CheckoutScreen(navController: NavController, product: Product) {
 @Preview( showBackground = true)
 @Composable
 private fun CheckoutScreenPreview(){
-    val navController = rememberNavController()
     val product = MockDataProvider.getProductById(0)
     if (product != null){
         Coffee4CodersTheme {
-            CheckoutScreen(navController, product)
+            CheckoutScreen(product){}
         }
     } else {
         Text("Error to show Preview")

@@ -1,30 +1,22 @@
 package com.justjump.coffee4coders.ui.screens
 
-import android.text.style.BackgroundColorSpan
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.justjump.coffee4coders.R
 import com.justjump.coffee4coders.ui.componets.ButtonComponent
@@ -34,7 +26,7 @@ import com.justjump.coffee4coders.ui.theme.main_color_dark_grey
 import com.justjump.coffee4coders.ui.theme.main_color_grey
 
 @Composable
-fun ConfirmationScreen(navController: NavHostController) {
+fun ConfirmationScreen( onClick: () -> Unit ) {
 
     Scaffold(
         topBar = { NavigationAppBar( title = "Summary" ) },
@@ -138,9 +130,7 @@ fun ConfirmationScreen(navController: NavHostController) {
                         .width(150.dp)
                 ) {
                     ButtonComponent("Home"){
-                        navController.navigate("feed"){
-                            popUpTo("feed") { inclusive = true }
-                        }
+                        onClick()
                     }
                 }
             }
@@ -161,8 +151,7 @@ fun getIdOrder(): String {
 @Preview(showBackground = true)
 @Composable
 private fun ConfirmationScreenPreview(){
-    val navController = rememberNavController()
     MaterialTheme {
-        ConfirmationScreen(navController)
+        ConfirmationScreen(){}
     }
 }

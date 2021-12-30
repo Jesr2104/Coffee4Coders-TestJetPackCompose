@@ -15,16 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 
-
-typealias ButtonAction = () -> Unit
-
 @Composable
-fun ButtonComponent(label: String, action: ButtonAction){
+fun ButtonComponent(label: String, onClick: () -> Unit){
 
     val upperCaseLabel = label.uppercase()
 
     Button(
-        onClick = {action()},
+        onClick = { onClick() },
         modifier = Modifier.fillMaxWidth()
             .clickable{},
             // this one is one test to know if is possible setup the
@@ -39,10 +36,7 @@ fun ButtonComponent(label: String, action: ButtonAction){
             pressedElevation = 8.dp,
             disabledElevation = 0.dp
         )
-    ){
-        Text(upperCaseLabel)
-    }
-
+    ){ Text(upperCaseLabel) }
 }
 
 @Preview(showBackground = true)
@@ -53,6 +47,5 @@ private fun ButtonComponentPreview(){
         Box(modifier = Modifier.padding(20.dp)){
             ButtonComponent("Hola"){}
         }
-
     }
 }

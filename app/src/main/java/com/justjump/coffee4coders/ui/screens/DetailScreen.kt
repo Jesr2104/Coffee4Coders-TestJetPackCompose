@@ -27,12 +27,12 @@ import com.justjump.coffee4coders.utilities.MockDataProvider
 import com.justjump.coffee4coders.utilities.SetSimpleAppBarWithBackButton
 
 @Composable
-fun DetailScreen(navController: NavController, product: Product) {
+fun DetailScreen(product: Product, onClickProduct: (Product) -> Unit) {
 
     val countryIso = CountryISO.valueOf(product.countryISO)
 
     Scaffold (
-        topBar = { SetSimpleAppBarWithBackButton(navController, R.string.detail_screen_title_top_bar) },
+        //topBar = { SetSimpleAppBarWithBackButton(navController, R.string.detail_screen_title_top_bar) },
         content = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState())
@@ -66,11 +66,10 @@ fun DetailScreen(navController: NavController, product: Product) {
                             style = MaterialTheme.typography.h5,
                             textAlign = TextAlign.End
                         )
-                        ButtonComponent(stringResource(R.string.detail_screen_button_purchase)){
-                            navController.navigate(route = "checkout/${product.id}"){
-                                launchSingleTop = true
-                            }
-                        }
+                        ButtonComponent(
+                            label = stringResource(R.string.detail_screen_button_purchase),
+                            onClick = {onClickProduct(product)}
+                        )
                     }
                 }
             }
@@ -85,7 +84,7 @@ private fun DetailScreenPreview(){
     val product = MockDataProvider.getProductById(0)
     if (product != null){
         Coffee4CodersTheme {
-            DetailScreen(navController, product)
+            DetailScreen(product = product){}
         }
     } else {
         Text("Error to show Preview")

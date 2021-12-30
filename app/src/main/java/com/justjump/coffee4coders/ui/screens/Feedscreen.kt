@@ -1,5 +1,6 @@
 package com.justjump.coffee4coders.ui.screens
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,9 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.justjump.coffee4coders.R
+import com.justjump.coffee4coders.models.data.local.Product
 import com.justjump.coffee4coders.ui.componets.BodyText
 import com.justjump.coffee4coders.ui.componets.NavigationAppBar
 import com.justjump.coffee4coders.ui.componets.ProductCard
@@ -27,7 +27,7 @@ import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 import com.justjump.coffee4coders.utilities.MockDataProvider
 
 @Composable
-fun FeedScreen(navController: NavController){
+fun FeedScreen(onClickProduct: (Product) -> Unit){
 
     val list = MockDataProvider.listOfProducts()
 
@@ -53,14 +53,10 @@ fun FeedScreen(navController: NavController){
                             }
                         }
                         items(list){ product ->
-                            ProductCard(product){
-
-                                val data = "detail/${product.id}"
-
-                                navController.navigate(route = data ){
-                                    launchSingleTop = true
-                                }
-                            }
+                            ProductCard(
+                                product = product,
+                                onClick = {onClickProduct(product)}
+                            )
                         }
                         item {
                             Column(
@@ -89,16 +85,12 @@ fun FeedScreen(navController: NavController){
 @Preview(showBackground = true)
 @Composable
 private fun FeedScreenPreview(){
-    val navController = rememberNavController()
-    FeedScreen(navController)
+    FeedScreen(){}
 }
 
-//@Preview(
-//    showBackground = true,
-//    uiMode = UI_MODE_NIGHT_YES
-//)
+@Preview( showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+
 @Composable
 private fun FeedScreenPreviewDark(){
-    val navController = rememberNavController()
-    FeedScreen(navController)
+    FeedScreen(){}
 }

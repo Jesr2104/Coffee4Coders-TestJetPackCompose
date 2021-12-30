@@ -20,23 +20,15 @@ import com.justjump.coffee4coders.ui.theme.main_color1_coffee4coders
 import com.justjump.coffee4coders.utilities.CountryISO
 import com.justjump.coffee4coders.utilities.MockDataProvider
 
-typealias SelectionAction = () -> Unit
-
 @Composable
-fun ProductCard(product: Product,
-                selected: SelectionAction
-                // the last param is a lambda expression and we used typealias to rename the type;
-){
+fun ProductCard( product: Product, onClick: () -> Unit ){
     val country = CountryISO.valueOf(product.countryISO)?: CountryISO.COL
 
     Card( modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp)
         .size(480.dp)
-        .clickable {
-            // when you click on the card this the code we going to run!!
-            selected()
-        }
+        .clickable(onClick = onClick)
     ) {
         Image(painterResource(country.getBackgroundImage()), null)
         Surface( modifier = Modifier
