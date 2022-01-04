@@ -7,25 +7,25 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.justjump.coffee4coders.R
 import com.justjump.coffee4coders.models.data.local.OrderInformation
 import com.justjump.coffee4coders.models.data.local.Product
 import com.justjump.coffee4coders.models.data.local.UserInformation
 import com.justjump.coffee4coders.ui.componets.*
-import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 import com.justjump.coffee4coders.utilities.CountryISO
 import com.justjump.coffee4coders.utilities.MockDataProvider
 
 @Composable
-fun CheckoutScreen(product: Product, onClick: () -> Unit) {
+fun CheckoutScreen(product: Product, onClick: () -> Unit, onClickBack: () -> Unit) {
 
     var name by remember { mutableStateOf("")}
     var email by remember { mutableStateOf("")}
@@ -44,7 +44,7 @@ fun CheckoutScreen(product: Product, onClick: () -> Unit) {
     val isOrderComplete = remember { mutableStateOf(false)}
 
     Scaffold(
-        //topBar = { SetSimpleAppBarWithBackButton(navController, R.string.checkout_screen_title) },
+        topBar = { TopBar(stringResource(R.string.detail_screen_title_top_bar), Icons.Filled.ArrowBack){ onClickBack() } },
         content = {
             Column(modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -172,18 +172,4 @@ fun CheckoutScreen(product: Product, onClick: () -> Unit) {
             }
         }
     )
-}
-
-
-@Preview( showBackground = true)
-@Composable
-private fun CheckoutScreenPreview(){
-    val product = MockDataProvider.getProductById(0)
-    if (product != null){
-        Coffee4CodersTheme {
-            CheckoutScreen(product){}
-        }
-    } else {
-        Text("Error to show Preview")
-    }
 }

@@ -7,6 +7,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,25 +16,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.justjump.coffee4coders.R
 import com.justjump.coffee4coders.models.data.local.Product
-import com.justjump.coffee4coders.ui.componets.*
-import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
+import com.justjump.coffee4coders.ui.componets.BodyText
+import com.justjump.coffee4coders.ui.componets.ButtonComponent
+import com.justjump.coffee4coders.ui.componets.TitleText
+import com.justjump.coffee4coders.ui.componets.TopBar
 import com.justjump.coffee4coders.utilities.CountryISO
-import com.justjump.coffee4coders.utilities.MockDataProvider
-import com.justjump.coffee4coders.utilities.SetSimpleAppBarWithBackButton
 
 @Composable
-fun DetailScreen(product: Product, onClickProduct: (Product) -> Unit) {
+fun ProductDetailsScreen(product: Product, onClickProduct: (Product) -> Unit, onClickBack: () -> Unit) {
 
     val countryIso = CountryISO.valueOf(product.countryISO)
 
     Scaffold (
-        //topBar = { SetSimpleAppBarWithBackButton(navController, R.string.detail_screen_title_top_bar) },
+        topBar = { TopBar(stringResource(R.string.detail_screen_title_top_bar), Icons.Filled.ArrowBack){ onClickBack() } },
         content = {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState())
@@ -75,18 +74,4 @@ fun DetailScreen(product: Product, onClickProduct: (Product) -> Unit) {
             }
         }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DetailScreenPreview(){
-    val navController = rememberNavController()
-    val product = MockDataProvider.getProductById(0)
-    if (product != null){
-        Coffee4CodersTheme {
-            DetailScreen(product = product){}
-        }
-    } else {
-        Text("Error to show Preview")
-    }
 }

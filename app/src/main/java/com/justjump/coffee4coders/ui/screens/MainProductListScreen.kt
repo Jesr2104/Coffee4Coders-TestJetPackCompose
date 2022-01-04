@@ -19,22 +19,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.justjump.coffee4coders.R
 import com.justjump.coffee4coders.models.data.local.Product
-import com.justjump.coffee4coders.ui.componets.BodyText
-import com.justjump.coffee4coders.ui.componets.NavigationAppBar
-import com.justjump.coffee4coders.ui.componets.ProductCard
-import com.justjump.coffee4coders.ui.componets.TitleText
+import com.justjump.coffee4coders.ui.componets.*
 import com.justjump.coffee4coders.ui.theme.Coffee4CodersTheme
 import com.justjump.coffee4coders.utilities.MockDataProvider
 
 @Composable
-fun FeedScreen(onClickProduct: (Product) -> Unit){
+fun MainProductListScreen(onClickProduct: (Product) -> Unit){
 
     val list = MockDataProvider.listOfProducts()
 
     Coffee4CodersTheme {
         Scaffold(
             topBar = {
-                NavigationAppBar()
+                TopBar()
             },
             content = {
                 Surface(
@@ -55,7 +52,7 @@ fun FeedScreen(onClickProduct: (Product) -> Unit){
                         items(list){ product ->
                             ProductCard(
                                 product = product,
-                                onClick = {onClickProduct(product)}
+                                onClick = { onClickProduct(product) }
                             )
                         }
                         item {
@@ -84,13 +81,9 @@ fun FeedScreen(onClickProduct: (Product) -> Unit){
 
 @Preview(showBackground = true)
 @Composable
-private fun FeedScreenPreview(){
-    FeedScreen(){}
-}
+private fun FeedScreenPreview(){ MainProductListScreen(){} }
 
 @Preview( showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 
 @Composable
-private fun FeedScreenPreviewDark(){
-    FeedScreen(){}
-}
+private fun FeedScreenPreviewDark(){ MainProductListScreen(){} }
